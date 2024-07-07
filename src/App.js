@@ -12,8 +12,8 @@ function App() {
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<HomePage />} />
-						{/* <Route path="/happyCoding/:fileId/:folderId" element={<CodeArea/>} /> */}
-						<Route path="/happyCoding" element={<CodeArea/>} />
+						<Route path="/happyCoding/:fileId/:folderId" element={<CodeArea/>} />
+						{/* <Route path="/happyCoding" element={<CodeArea/>} /> */}
 					</Routes>
 				</BrowserRouter>
 			</CodebaseProvider>
