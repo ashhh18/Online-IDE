@@ -1,0 +1,38 @@
+.area-box{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .content-box{
+        background-color: orange;
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+    }
+    .header-box{
+        display: flex;
+        justify-content: center;
+        background-color: #1e1e1e;
+        padding: 2px 0;
+    }
+    .input-box,.output-box{
+        display: flex;
+        flex-direction: column;
+        .inout-header{
+            background-color: #ededed;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        textarea{
+            border: none;
+            flex-grow: 1;
+        }
+        textarea:hover{
+            outline: none;
+        }
+    }
+    .editor-box{
+        border: 2px solid black;
+        grid-row: 1/3;
+    }
+}
