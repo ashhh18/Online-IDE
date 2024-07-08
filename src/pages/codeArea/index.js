@@ -1,43 +1,65 @@
 import { useParams } from "react-router-dom"
 import "./index.scss"
 import { EditorContainer } from "./EditorContainer";
-import { useState } from "react";
+// import { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
+import { makeSub } from "../../Providers/servics";
 
 export const CodeArea = () => {
     const params = useParams();
-    const [inputVal,setInputVal] = useState('');
-    const [outputVal,setOutputVal] = useState('');
-
+    const [inputVal, setInputVal] = useState('');
+    const [showLoader, setShowLoader] = useState(false);
+    const [outputVal, setOutputVal] = useState('');
     const { fileId, folderId } = params;
 
     const onImportInput = (e) => {
         const file = e.target.files[0];
         const fileType = file.type.includes("text");
-        if (fileType){
+        if (fileType) {
             const fileReader = new FileReader();
             fileReader.readAsText(file);
             fileReader.onload = (e) => {
                 setInputVal(e.target.result);
             }
-        }else{
+        } else {
             alert("invalid");
         }
     }
 
     const onExportOutput = () => {
-
         const val = outputVal.trim();
-        if (!val){
+        if (!val) {
             alert("incomplete");
-            return; 
+            return;
         }
-        const tempBlob = new Blob([outputVal],{type:"text/plain"});
+        const tempBlob = new Blob([outputVal], { type: "text/plain" });
         const downloadUrl = URL.createObjectURL(tempBlob);
         const link = document.createElement("a");
         link.href = downloadUrl;
         link.download = `output.txt`;
         link.click();
     }
+
+    const callback = ({ apiStatus, data, message }) => {
+        if (apiStatus === 'loading') {
+            setShowLoader(true);
+        } else if (apiStatus === 'error') {
+            setShowLoader(false);
+            setOutputVal("something wrong");
+        } else {
+            setShowLoader(false);
+            if (data.status.id === 3) {
+                setOutputVal(atob(data.stdout));
+            } else {
+                setOutputVal(atob(data.stderr));
+            }
+        }
+    };
+
+    const runCode = useCallback(({ code, language }) => {
+        console.log("Running code with language:", language);
+        makeSub(code, language, inputVal, callback);
+    }, [inputVal]);
 
     return (
         <div className="area-box">
@@ -46,7 +68,7 @@ export const CodeArea = () => {
             </div>
             <div className="content-box">
                 <div className="editor-box">
-                    <EditorContainer fileId={fileId} folderId={folderId}/>
+                    <EditorContainer fileId={fileId} folderId={folderId} runCode={runCode} />
                 </div>
                 <div className="input-box">
                     <div className="input-header">
@@ -55,9 +77,9 @@ export const CodeArea = () => {
                             <span className="material-icons">cloud_upload</span>
                             <b className="">import input</b>
                         </label>
-                        <input type="file" id="input" style={{ display: 'none' }} onChange={onImportInput}/>
+                        <input type="file" id="input" style={{ display: 'none' }} onChange={onImportInput} />
                     </div>
-                    <textarea readOnly value={inputVal} onChange={(e)=>setInputVal(e.target.value)}></textarea>
+                    <textarea value={inputVal} onChange={(e) => setInputVal(e.target.value)}></textarea>
                 </div>
                 <div className="input-box">
                     <div className="input-header">
@@ -67,8 +89,13 @@ export const CodeArea = () => {
                             <p>export</p>
                         </button>
                     </div>
-                    <textarea readOnly value={outputVal} onChange={(e)=>setOutputVal(e.target.value)}></textarea>
+                    <textarea readOnly value={outputVal} onChange={(e) => setOutputVal(e.target.value)}></textarea>
                 </div>
+                {showLoader && <div className="full-loader">
+                    <div className="loader">
+
+                    </div>
+                </div>}
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext } from "react";
 import "./EditorContainer.scss";
 import { Editor } from "@monaco-editor/react";
 import { CodebaseContext } from "../../Providers/CodebaseProvider";
@@ -22,30 +22,15 @@ const fileExtension2 = {
     py: 'python'
 };
 
-// const defaultCodeMap = {
-//     cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!";\n    return 0;\n}',
-//     js: 'console.log("Hello, World!");',
-//     java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
-//     python: 'print("Helloooooo, World!")'
-// };
-
-export const EditorContainer = ({ fileId, folderId }) => {
+export const EditorContainer = ({ fileId, folderId, runCode }) => {
     const { getDefaultCode, getLanguage, saveCode, updateLanguage } = useContext(CodebaseContext);
-    const [code, setCode] = useState(() => {
-        return getDefaultCode(fileId, folderId);
-});
-    // const [code, setCode] = useState('cpp');
-    const [lang, setLang] = useState(() => getLanguage(fileId, folderId));
+    const [code, setCode] = useState(() => getDefaultCode(fileId, folderId));
+    const [language, setLanguage] = useState(() => getLanguage(fileId, folderId));
     const [theme, setTheme] = useState('vs-dark');
+    const [isFullScreen, setIsFullScreen] = useState(0);
     const codeRef = useRef(code);
 
-    // Ensure codeRef is in sync with the code state
-    // useEffect(() => {
-    //     codeRef.current = code;
-    // }, [code]);
-
     const onChangeCode = (newCode) => {
-        // setCode(newCode); 
         codeRef.current = newCode;
     };
 
@@ -61,7 +46,7 @@ export const EditorContainer = ({ fileId, folderId }) => {
                 const fileExt = fileName.split('.').pop();
                 const whichLang = fileExtension2[fileExt] || 'plaintext';
                 setCode(importedCode);
-                setLang(whichLang);
+                setLanguage(whichLang);
                 codeRef.current = importedCode;
             };
         } else {
@@ -79,15 +64,14 @@ export const EditorContainer = ({ fileId, folderId }) => {
         const downloadUrl = URL.createObjectURL(tempBlob);
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.download = `code.${fileExtension[lang]}`;
+        link.download = `code.${fileExtension[language]}`;
         link.click();
     };
 
     const changeLanguage = (e) => {
-        updateLanguage(fileId,folderId,e.target.value);
-        setCode(getDefaultCode(fileId,folderId));
-        setLang(e.target.value);
-        // setCode(defaultCodeMap[newLang]);
+        updateLanguage(fileId, folderId, e.target.value);
+        setCode(getDefaultCode(fileId, folderId));
+        setLanguage(e.target.value);
     };
 
     const themeChange = (e) => {
@@ -95,12 +79,21 @@ export const EditorContainer = ({ fileId, folderId }) => {
     };
 
     const onSave = () => {
-        saveCode(fileId,folderId,codeRef.current);
+        saveCode(fileId, folderId, codeRef.current);
         alert("code saved");
-    }
+    };
+
+    const fullScreen = () => {
+        setIsFullScreen(!isFullScreen);
+    };
+
+    const onRunCode = () => {
+        console.log("Running code with language:", language);
+        runCode({ code: codeRef.current, language });
+    };
 
     return (
-        <div className="root-editor-box">
+        <div className="root-editor-box" style={isFullScreen ? styles.fullScreen : { position: 'static' }}>
             <div className="editor-header">
                 <div className="editor-left-box">
                     <b>{"title of code"}</b>
@@ -108,7 +101,7 @@ export const EditorContainer = ({ fileId, folderId }) => {
                     <button onClick={onSave}>save code</button>
                 </div>
                 <div className="editor-right-box">
-                    <select onChange={changeLanguage} value={lang}>
+                    <select onChange={changeLanguage} value={language}>
                         <option value="cpp">cpp</option>
                         <option value="js">js</option>
                         <option value="java">java</option>
@@ -123,7 +116,7 @@ export const EditorContainer = ({ fileId, folderId }) => {
             <div className="editor-body">
                 <Editor
                     height={"100%"}
-                    language={lang}
+                    language={language}
                     options={editorOps}
                     theme={theme}
                     onChange={onChangeCode}
@@ -141,8 +134,22 @@ export const EditorContainer = ({ fileId, folderId }) => {
                 </label>
                 <input type="file" id="import-code" style={{ display: 'none' }} onChange={onImportCode} />
                 <button onClick={onExportCode}>export code</button>
-                <button>run code</button>
+                <button className="btn" onClick={onRunCode}>
+                    <span className="material-icons">play_arrow</span>
+                    <span>run code</span>
+                </button>
             </div>
         </div>
     );
 };
+
+const styles = {
+    fullScreen: {
+        position: 'absolute',
+        top: 0,
+        left:0,
+        right:0,
+        bottom:0,
+        zIndex:10,
+    }
+}
