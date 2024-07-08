@@ -29,27 +29,29 @@ const Folder = ({ folderTitle, cards, folderId }) => {
         <div className="folder-box">
             <div className="folder-header">
                 <div className="folder-header-item">
-                    <span className="material-icons" style={{ color: "#FFCA29" }}>folder</span>
+                    <span className="material-icons" style={{fontWeight:'bold', marginLeft:'15px', color: "#FFCA29" }}>folder</span>
                     <span>{folderTitle}</span>
                 </div>
                 <div className="folder-header-item">
                     <span onClick={onDeleteFolder} className="material-icons" style={{ color: 'white' }}>delete</span>
                     <span onClick={onEditFolder} className="material-icons" style={{ color: 'white' }}>edit</span>
                     <button onClick={onNewCard}
-                    className="add-folder">
+                    className="add-file">
                         <span className="material-icons">add</span>
-                        <span>New codebase</span>
+                        <span>New file</span>
                     </button>
                 </div>
             </div>
             <div className="cards-box">
                 {
                     cards?.map((file, index) => {
-                        const onEditFile = () => {
+                        const onEditFile = (e) => {
+                            e.stopPropagation();
                             setPayLoad({fileId:file.id, folderId:folderId});
                             openMode(modeConstants.EDIT_FILE);
                         }
-                        const onDeleteFile = () => {
+                        const onDeleteFile = (e) => {
+                            e.stopPropagation();
                             deleteFile(folderId,file.id);
                         }
                         const navigatePls = () => {

@@ -72,7 +72,7 @@ export const CodeArea = () => {
                 </div>
                 <div className="input-box">
                     <div className="input-header">
-                        <b>Input:</b>
+                        <b className="inp-btn">Input:</b>
                         <label htmlFor="input" className="input-icons">
                             <span className="material-icons">cloud_upload</span>
                             <b className="">import input</b>

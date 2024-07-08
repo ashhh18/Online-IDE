@@ -16,7 +16,7 @@ export const EditFolderMode = () => {
 
     return <div className="mode-box">
         <form className="mode-body" onSubmit={onSubmitMode}>
-            <span onClick={closeMode} className="materials-icons close">close</span>
+            <span onClick={closeMode} className="material-icons">close</span>
             <h1>edit folder name</h1>
             <div className="item">
                 <p>enter name</p>

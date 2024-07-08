@@ -11,7 +11,7 @@ export async function makeSub(code, language, stdin, callback) {
     const options = {
         method: 'POST',
         headers: {
-            'x-rapidapi-key': 'ea30c3f358mshe0bc947e54e4207p1da52fjsnf2062016ddb0', // Replace with your actual API key
+            'x-rapidapi-key': '37053bc537mshc94325760196a3fp1516aajsnb8cbce2b748a', 
             'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
             'Content-Type': 'application/json',
         },
@@ -58,7 +58,7 @@ async function getsub(tokenId, callback) {
     const options = {
         method: 'GET',
         headers: {
-            'x-rapidapi-key': 'ea30c3f358mshe0bc947e54e4207p1da52fjsnf2062016ddb0', // Replace with your actual API key
+            'x-rapidapi-key': '37053bc537mshc94325760196a3fp1516aajsnb8cbce2b748a',
             'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
         },
     };

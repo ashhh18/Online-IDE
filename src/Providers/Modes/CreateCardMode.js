@@ -38,9 +38,9 @@ export const CreateCardMode = () => {
                     <option value="java">java</option>
                     <option value="python">python</option>
                 </select>
-                <button type="submit">  
+                {/* <button type="submit">  
                     create
-                </button>
+                </button> */}
             </div>
         </form>
     </div>

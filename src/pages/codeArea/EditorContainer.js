@@ -23,7 +23,8 @@ const fileExtension2 = {
 };
 
 export const EditorContainer = ({ fileId, folderId, runCode }) => {
-    const { getDefaultCode, getLanguage, saveCode, updateLanguage } = useContext(CodebaseContext);
+    const { getDefaultCode, getLanguage, saveCode, updateLanguage, getName } = useContext(CodebaseContext);
+    const [name, setName] = useState(() => getName(fileId,folderId));
     const [code, setCode] = useState(() => getDefaultCode(fileId, folderId));
     const [language, setLanguage] = useState(() => getLanguage(fileId, folderId));
     const [theme, setTheme] = useState('vs-dark');
@@ -96,9 +97,8 @@ export const EditorContainer = ({ fileId, folderId, runCode }) => {
         <div className="root-editor-box" style={isFullScreen ? styles.fullScreen : { position: 'static' }}>
             <div className="editor-header">
                 <div className="editor-left-box">
-                    <b>{"title of code"}</b>
-                    <span className="material-icons">edit</span>
-                    <button onClick={onSave}>save code</button>
+                    <b >{name}</b>
+                    <button className="save-btn" onClick={onSave}>save code</button>
                 </div>
                 <div className="editor-right-box">
                     <select onChange={changeLanguage} value={language}>
@@ -124,10 +124,6 @@ export const EditorContainer = ({ fileId, folderId, runCode }) => {
                 />
             </div>
             <div className="editor-footer">
-                <button>
-                    <span className="material-icons">fullscreen</span>
-                    <span>full screen</span>
-                </button>
                 <label htmlFor="import-code" className="btn">
                     <span className="material-icons">cloud_upload</span>
                     <span>import code</span>

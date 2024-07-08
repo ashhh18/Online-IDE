@@ -11,7 +11,24 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+const resizeObserverErrDiv = document.createElement('div');
+resizeObserverErrDiv.id = 'resize-observer-error';
+document.body.appendChild(resizeObserverErrDiv);
+
+const resizeObserverErrDivStyle = document.createElement('style');
+resizeObserverErrDivStyle.innerHTML = `
+  #resize-observer-error {
+    display: none;
+  }
+`;
+document.head.appendChild(resizeObserverErrDivStyle);
+
+const resizeObserverErrEvent = (event) => {
+  if (event.message === 'ResizeObserver loop completed with undelivered notifications.') {
+    event.stopImmediatePropagation();
+  }
+};
+
+window.addEventListener('error', resizeObserverErrEvent);
+
 reportWebVitals();

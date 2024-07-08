@@ -16,15 +16,17 @@ export const HomePage = () => {
             <RightComp/>
             <Mode/>
             <div className="left-box">
+                <div className="logo">
+                    <img className="img-logo" src="./logo2.png"/>
+                </div>
                 <div className="item-box">
-                    <h1>Online IDE</h1>
-                    <h2>CODE COMPILER</h2>
+                    <h1>Welcome to Ulog online code editor !!!</h1>
+                    {/* <h1>Online IDE</h1>
+                    <h2>CODE COMPILER</h2> */}
                     <button onClick=
                     {openCreateCodeMode}>
-                        <span
-                        className="materials-icons">add
-                        </span>
-                        <span>Write Code ?</span>
+                        {/* <span className="material-icons">add</span> */}
+                        <span>Happy Coding</span>
                     </button>
                 </div>
             </div>

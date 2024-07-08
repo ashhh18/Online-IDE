@@ -1,10 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+body {
+    font-family: 'Roboto Mono', monospace;
+}
+
 .mode-box{
     position: fixed;
     top:0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: grey;
+    // background-color: grey;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,5 +29,12 @@
             top: 0;
             right: 10px;
         }
+        .close:hover{
+            cursor: pointer;
+        }
     }
+}
+
+.material-icons:hover{
+    cursor: pointer;
 }

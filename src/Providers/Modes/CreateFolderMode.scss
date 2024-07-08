@@ -2,15 +2,15 @@
     position: fixed;
     top:0;
     bottom: 0;
-    left: 0;
+    // left: 0;
     right: 0;
-    background-color: grey;
+    // background-color: red;
     display: flex;
     justify-content: center;
     align-items: center;
     .mode-body{
         background-color: whitesmoke;
-        padding: 20ox;
+        padding: 20px;
         position: relative;
         display: flex;
         flex-direction: column;

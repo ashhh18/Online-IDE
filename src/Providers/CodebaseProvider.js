@@ -32,18 +32,26 @@ const initData = [
 
 export const defaultCode = {
     'cpp': `#include <iostream>
-    using namespace std,
-    int main(){
-    cout << "bubu";}
+using namespace std;
+int main()
+{
+    cout << "bubu" << endl;
     return 0;
+}
     `,
-    'javascript': 'console.log("hey")',
-    'java' : 
-    `   public class Main{
-        public static void main(String[] args)}{
-        System.out.print("yoo");
-    }`,
-    'python':'print("hey")'
+    'javascript': `function main() {
+    console.log("Hello, World!");
+}`,
+    'java' : `public class Main{
+    public static void main(String[] args)}{
+    System.out.print("bubu");
+}`,
+    'python':`def main():
+print("Hello, World!")
+
+if __name__ == "__main__":
+    main()
+`
 }
 
 export const CodebaseProvider = ({ children }) => {
@@ -149,6 +157,19 @@ export const CodebaseProvider = ({ children }) => {
         setFolders(temp);
     }
 
+    // const getDefaultCode = async (fileId, folderId) => {
+    //     for (let i = 0; i < folders.length; i++) {
+    //         if (folders[i].id === folderId) {
+    //             for (let j = 0; j < folders[i].files.length; j++) {
+    //                 const curFile = folders[i].files[j];
+    //                 if (fileId === curFile.id) {
+    //                     return curFile.code; // Return saved code instead of default code
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
+
     const getDefaultCode = (fileId,folderId) => {
         for (let i=0;i<folders.length;i++){
             if (folders[i].id === folderId){
@@ -160,7 +181,7 @@ export const CodebaseProvider = ({ children }) => {
                 }
             }
         }
-    }
+    };
 
     const updateLanguage = (fileId,folderId,lang) => {
         const temp = [...folders];
@@ -193,6 +214,21 @@ export const CodebaseProvider = ({ children }) => {
             }
         }
     }
+
+    const getName = (fileId,folderId) => {
+        // const temp = [...folders];
+        for (let i=0;i<folders.length;i++){
+            if (folders[i].id === folderId){
+                for (let j=0;j<folders[i].files.length;j++){
+                    const curFile = folders[i].files[j];
+                    if (fileId===curFile.id){
+                        return curFile.title;
+                    }
+                }
+            }
+        }
+    }
+
 
     const saveCode = (fileId, folderId, newCode) => {
         const temp = [...folders];
@@ -228,7 +264,8 @@ export const CodebaseProvider = ({ children }) => {
         getDefaultCode,
         getLanguage,
         updateLanguage,
-        saveCode
+        saveCode,
+        getName
     }
 
     return (

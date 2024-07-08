@@ -1,5 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+body {
+    font-family: 'Roboto Mono', monospace;
+}
+
 .root-editor-box {
-    background-color: blue;
+    background-color: #2a635a;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -12,7 +18,8 @@
     justify-content: space-between;
 }
 
-button, select {
+button,
+select {
     border: none;
     background-color: #313131;
     color: white;
@@ -63,13 +70,25 @@ button:hover {
 }
 
 .editor-body {
+    margin-top: 0.5dvh;
     background-color: black;
     flex-grow: 1;
 }
 
-.editor-left-box, .editor-right-box {
+.editor-left-box,
+.editor-right-box {
     display: flex;
-    gap: 10px;
+    margin-left: 1dvw;
+    gap: 30px;
+    font-size: 30px;
+
+    font-family: 'Roboto Mono', monospace;
+
     padding: 10px;
     align-items: center;
+}
+
+.save-btn{
+    color: white;
+    
 }
