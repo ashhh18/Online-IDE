@@ -17,11 +17,8 @@ This React project creates an online code editor application. It uses the web br
 - **API:** Rapid API
 - **Backend:** JavaScript
 
-## Getting Started
-
-To get started with the project, follow these steps:
-
-1. **Clone the repository:**
+## Steps to run :
+Clone the repository then run the following commands :
    ```bash
    git clone https://github.com/your-username/online-ide-code-editor.git
    cd online-ide-code-editor
